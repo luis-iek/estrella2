@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package>
+  <name>estrella2</name>
+  <version>0.0.0</version>
+  <description>The estrella2 package</description>
+
+  <maintainer email="luis.j.iek@gmail.com">Luis Lopez</maintainer>
+
+  <license>TODO</license>
+
+    <buildtool_depend>catkin</buildtool_depend>
+    <build_depend>geometry_msgs</build_depend>
+    <run_depend>geometry_msgs</run_depend>
+    <build_depend>turtlesim</build_depend>
+    <run_depend>turtlesim</run_depend>
+    <build_depend>roscpp</build_depend>
+    <run_depend>roscpp</run_depend>
+
+</package>
