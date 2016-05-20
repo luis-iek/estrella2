@@ -5,6 +5,7 @@
 #include<math.h>
 
 ros::Publisher vel_pub;
+ros::Subscriber pose_sub;
 turtlesim::Pose turtlesim_pose;
 
 const double PI = acos(-1);
@@ -21,6 +22,7 @@ int main(int argc, char **argv){
 	ros::init(argc, argv, "mover");
 	ros::NodeHandle n;
 	vel_pub = n.advertise<geometry_msgs::Twist>("/turtle1/cmd_vel", 10);
+	pose_sub = n.subscribe("/turtle1/pose", 10, &poseCallback);
 	dibujar();
 }
 
