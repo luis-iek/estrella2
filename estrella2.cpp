@@ -22,7 +22,7 @@ int main(int argc, char **argv){
 	ros::init(argc, argv, "mover");
 	ros::NodeHandle n;
 	vel_pub = n.advertise<geometry_msgs::Twist>("/turtle1/cmd_vel", 10);
-	pose_sub = n.subscribe("/turtle1/pose", 10, &poseCallback);
+	pose_sub = n.subscribe("/turtle1/pose", 10, poseCallback);
 	dibujar();
 }
 
@@ -39,7 +39,7 @@ void move( double vy, double dx, bool isf){
 	}
 	ros::Rate rate(10);
 	t0 = ros::Time::now().toSec();
-	while(cur_dis != dx){
+	while(abs(cur_dis) <  abs(dx)){
 		vel_pub.publish(vel_msg);
 		t1 = ros::Time::now().toSec();
 		cur_dis = vel_msg.linear.x * (t1 - t0);
@@ -77,13 +77,16 @@ double deg2rad(double input){
 }
 
 void dibujar(){
-	int i, l=1;
+	int i, l=3;
 	double a_speed = 30, ang; 
 	double px, py, vx, vy;
 	double p[5][2];
 	a_speed = deg2rad(a_speed);
 	ang = 36;
 	ang = deg2rad(ang);
+	ros::Rate rate(10);
+	ros::spinOnce();
+	rate.sleep();
 	p[0][0] = turtlesim_pose.x;
 	cout << p[0][0] << endl;
 	p[0][1] = turtlesim_pose.y;
@@ -95,6 +98,7 @@ void dibujar(){
 	p[3][1] = p[0][1] + l*sin(ang);
 	p[4][0] = p[0][0] + 2*l*cos(ang) - l*sin(36);
 	p[4][1] = p[0][1] - l*cos(ang);
+	vx = 2;
 	for(i=0; i< 4; i++){
 		px = p[i+1][0] - p[i][0];
 		py = p[i+1][1] - p[i][1];
@@ -119,5 +123,4 @@ void dibujar(){
 void poseCallback(const turtlesim::Pose::ConstPtr & pose_msg){
 	turtlesim_pose.x = pose_msg -> x;
 	turtlesim_pose.y = pose_msg -> y;
-	turtlesim_pose.theta = pose_msg -> theta;
 }
